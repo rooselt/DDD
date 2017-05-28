@@ -1,0 +1,620 @@
+﻿<form name="clientForm" novalidate>
+
+    <div class="ui stackable grid">
+
+        <!--MENU-->
+        <div class="ui sixteen wide stackable column" id="top-menu">
+
+            <div class="ui stackable borderless menu">
+
+                <div class="header item">
+
+                    <h3 class="ui header">
+                        <i class="users bordered icon"></i>
+                        <div class="content">
+                            Cliente
+                            <div class="inverted sub header">
+                                Edite ou Cadastre um novo Cliente
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div class="right item">
+                    <a class="ui labeled primary icon button" href="#/clientList">
+                        <i class="long arrow left icon"></i> Voltar
+                    </a>
+                </div>
+                <div class="right item" style="margin-left: 0 !important; padding-left: 0">
+                    <a class="ui labeled primary icon button" ng-click="newClient()">
+                        <i class="edit icon"></i>Novo Cliente
+                    </a>
+                </div>
+                <div class="right item" style="margin-left: 0 !important; padding-left: 0">
+                    <a class="ui labeled primary icon button" ng-class="{'disabled': client.id == 0}" ng-click="showModalRemoveClient(client)">
+                        <i class="remove icon"></i>Excluir
+                    </a>
+                </div>
+                <div class="right item" style="margin-left: 0 !important; padding-left: 0">
+                    <a class="ui labeled primary icon button" ng-click="submitForm()">
+                        <i class="checkmark icon"></i> {{btnSaveText}}
+                    </a>
+                </div>
+                <div class="right item" style="margin-left: 0 !important; padding-left: 0">
+                    <a class="ui icon orange button" ng-click="showHelp()">
+                        <i class="help icon"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="ui sixteen wide stackable centered column" style="padding:0;padding-left: 14px">
+
+            <div class="ui stackable grid">
+
+                <div class="ui ten wide stackable column" style="padding-top: 0">
+
+                    <!--INFORMAÇÕES COMERCIAIS-->
+                    <div class="ui form stackable fluid raised segment">
+
+                        <div class="ui blue ribbon large label" style="margin-bottom: 20px">
+                            Informações Comerciais
+                        </div>
+
+                        <!--CODIGO CLIENTE-->
+                        <div class="fields" ng-show="client.id > 0 || !configuration.codAutoClient">
+
+                            <div class="three wide field">
+                                <label for="cod">Código do Cliente</label>
+                                <input type="text" name="cod" class="ui input" ng-required="client.id == 0 && !configuration.codAutoClient" ng-readonly="configuration.codAutoClient"
+                                    ng-model="client.codCliente" />
+                            </div>
+                            <div class="three wide field">
+                                <label for="registration">Data de Cadastro</label>
+                                <input type="text" name="registration" ui-mask="99/99/9999" class="ui input" readonly ng-model="client.registrationDate"
+                                />
+                            </div>
+
+                        </div>
+
+                        <div class="fields">
+
+                            <!--SELECT TIPO PESSOA-->
+                            <div class="four wide required field" ng-class="{'error' : client.ePersonType == 0 && clientForm.$submitted}">
+
+                                <label for="personType">Tipo Pessoa</label>
+                                <select ng-model="client.ePersonType" ng-options="item.id as item.desc for item in userTypes" ng-selected="client.ePersonType"
+                                    name="personType" required></select>
+
+                                <div class="ui pointing red basic label" ng-show="client.ePersonType == 0 && clientForm.$submitted">
+                                    <div>O Tipo Pessoa é Obrigatório</div>
+                                </div>
+
+                            </div>
+
+
+                            <!--CNPJ-->
+                            <div class="five wide required field" ng-show="client.ePersonType === 2" ng-class="{'error' : !clientForm.cnpj.$valid && (clientForm.$submitted || !clientForm.cnpj.$pristine)}">
+
+                                <label for="cnpj">CNPJ</label>
+                                <input type="text" name="cnpj" class="ui input" ui-mask="99.999.999/9999-99" ng-model="client.cnpj" ng-required="client.ePersonType === 2"
+                                />
+
+                                <div class="ui pointing red basic label" ng-show="!clientForm.cnpj.$valid && (clientForm.$submitted || !clientForm.cnpj.$pristine)">
+                                    <div ng-show="!clientForm.cnpj.$valid">O CNPJ é Obrigatório</div>
+                                </div>
+                            </div>
+                            <!--CPF-->
+                            <div class="four wide required field" ng-show="client.ePersonType === 1" ng-class="{'error' : !clientForm.cpf.$valid && (clientForm.$submitted || !clientForm.cpf.$pristine)}">
+
+                                <label for="cpf">CPF</label>
+                                <input type="text" name="cpf" class="ui input" ui-mask="999.999.999-99" ng-model="client.cpf" ng-required="client.ePersonType === 1"
+                                />
+
+                                <div class="ui pointing red basic label" ng-show="!clientForm.cpf.$valid && (clientForm.$submitted || !clientForm.cpf.$pristine)">
+                                    <div ng-show="!clientForm.cpf.$valid">O CPF é Obrigatório</div>
+                                </div>
+                            </div>
+
+                            <!--RG-->
+                            <div class="three wide field" ng-show="client.ePersonType === 1">
+
+                                <label for="rg">RG</label>
+                                <input type="text" name="rg" class="ui input" ng-model="client.rg" />
+                            </div>
+                        </div>
+
+
+                        <div class="fields" ng-show="client.ePersonType === 1">
+
+                            <!--NOME DO CLIENTE-->
+                            <div class="eight wide required field" ng-class="{'error' : !clientForm.clientName.$valid && (clientForm.$submitted || !clientForm.clientName.$pristine)}">
+                                <label for="nomeEmpresa">Nome do Cliente</label>
+                                <input type="text" ng-model="client.clientName" name="clientName" class="ui input" ng-required="client.ePersonType === 1"
+                                    maxlength="50" />
+
+                                <div class="ui pointing red basic label" ng-show="!clientForm.clientName.$valid && (clientForm.$submitted || !clientForm.clientName.$pristine)">
+                                    <div ng-show="!clientForm.clientName.$valid">O Nome do Cliente é Obrigatório</div>
+                                </div>
+                            </div>
+
+                            <!--DATA DE NASCIMENTO-->
+                            <div class="four wide required field" ng-class="{'error' : !clientForm.birthday.$valid && (clientForm.$submitted || !clientForm.birthday.$pristine)}">
+
+                                <label for="birthday">Data de Nascimento</label>
+                                <input type="text" ng-model="client.birthday" name="birthday" ui-mask="99/99/9999" class="ui input" ng-required="client.ePersonType === 1"
+                                />
+
+                                <!--<div class="ui calendar" id="birthdayCalendar">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input name="birthday" id="birthday" ng-model="client.birthday" type="text" ng-required="client.ePersonType === 1">
+                            </div>
+                        </div>
+                        {{client.birthday}}-->
+                                <div class="ui pointing red basic label" ng-show="!clientForm.birthday.$valid && (clientForm.$submitted || !clientForm.birthday.$pristine)">
+                                    <div ng-show="!clientForm.birthday.$valid">Data não informada ou</br>em formato inválido</div>
+                                </div>
+                            </div>
+
+                            <!--SEXO-->
+                            <div class="four wide required field" ng-class="{'error' : client.eSex == 0 && (clientForm.$submitted || !clientForm.sex.$pristine)}">
+
+                                <label for="sex">Gênero</label>
+                                <select ng-model="client.eSex" ng-options="item.id as item.desc for item in sexClient" ng-selected="client.eSex" name="sex"
+                                    ng-required="client.ePersonType === 1"></select>
+
+                                <div class="ui pointing red basic label" ng-show="client.eSex == 0 && clientForm.$submitted">
+                                    <div>o género do Cliente é Obrigatório</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="fields" ng-show="client.ePersonType === 2">
+
+                            <!--RAZÃO SOCIAL-->
+                            <div class="eight wide field" ng-class="{'error' : !clientForm.socialReasonName.$valid && (clientForm.$submitted || !clientForm.socialReasonName.$pristine)}">
+
+                                <label for="socialReasonName">Razão Social</label>
+                                <input type="text" ng-model="client.socialReasonName" name="socialReasonName" class="ui input" ng-required="client.ePersonType === 2"
+                                    maxlength="50" />
+
+                                <div class="ui pointing red basic label" ng-show="!clientForm.socialReasonName.$valid && (clientForm.$submitted || !clientForm.socialReasonName.$pristine)">
+                                    <div ng-show="!clientForm.socialReasonName.$valid">A Razão Social é Obrigatória</div>
+                                </div>
+
+                            </div>
+
+                            <!--NOME FANTASIA-->
+                            <div class="eight wide field" ng-class="{'error' : !clientForm.fantasyName.$valid && (clientForm.$submitted || !clientForm.fantasyName.$pristine)}">
+
+                                <label for="fantasyName">Nome Fantasia</label>
+                                <input type="text" ng-model="client.fantasyName" name="fantasyName" class="ui input" ng-required="client.ePersonType === 2"
+                                    maxlength="50" />
+
+                                <div class="ui pointing red basic label" ng-show="!clientForm.fantasyName.$valid && (clientForm.$submitted || !clientForm.fantasyName.$pristine)">
+                                    <div ng-show="!clientForm.fantasyName.$valid">O Nome Fantasia é Obrigatório</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="ui eight wide field">
+
+                            <label for="note">Observação</label>
+                            <textarea type="text" ng-model="client.note" maxlength="250" name="note" rows="3" class="ui input" />
+
+                        </div>
+
+                    </div>
+
+                    <!--CONFIGURAÇÕES-->
+                    <div class="ui form stackable fluid raised segment">
+
+                        <div class="ui blue ribbon large label" style="margin-bottom: 20px">
+                            Configurações
+                        </div>
+
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" ng-model="client.sendAutomaticMsg" name="chkMarketingMsg" />
+                                <label for="chkMarketingMsg">
+                            Enviar mensagens automáticas (Promoções, Novidades, Felicitações)
+                        </label>
+                            </div>
+                        </div>
+                        <div class="field" ng-show="client.ePersonType === 1 && clientForm.birthday.$valid">
+                            <div class="ui checkbox">
+                                <input type="checkbox" ng-model="client.addBirthdayToCalendar" name="chkAddToCallendar" />
+                                <label for="chkAddToCallendar">
+                            Adicionar Aniversário ao Calendário de Eventos
+                        </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--ENDEREÇO-->
+                    <div class="ui form stackable fluid raised segment">
+
+                        <div class="ui blue ribbon large label" style="margin-bottom: 20px">
+                            Endereço
+                        </div>
+
+                        <div class="fields">
+
+                            <!--CEP-->
+                            <div class="three wide field">
+                                <label for="cep">CEP</label>
+                                <input type="text" name="cep" ng-model="client.address.cep" ng-blur="getAddress(client.address.cep)" class="ui input" ui-mask="99999-999"
+                                />
+                            </div>
+                            <div class="field">
+                                <label>&nbsp</label>
+                                <button type="button" class="ui square icon yellow button" data-content="Informe o Cep para que possamos preencher o Endereço para você"
+                                    data-variation="inverted">
+                            <i class="info icon"></i>
+                            </button>
+                            </div>
+                        </div>
+                        <div class="fields">
+
+                            <!--RUA-->
+                            <div class="eight wide required field" ng-class="{'error' : !clientForm.street.$valid && (clientForm.$submitted || !clientForm.street.$pristine)}">
+
+                                <label for="street">Rua/Av</label>
+                                <input type="text" name="street" ng-model="client.address.logradouro" class="ui input" required />
+
+                                <div class="ui pointing red basic label" ng-show="!clientForm.street.$valid && (clientForm.$submitted || !clientForm.street.$pristine)">
+                                    <div ng-show="!clientForm.street.$valid">A Rua é Obrigatória</div>
+                                </div>
+
+                            </div>
+
+                            <!--NUMERO-->
+                            <div class="two wide required field" ng-class="{'error' : !clientForm.number.$valid && (clientForm.$submitted || !clientForm.number.$pristine)}">
+
+                                <label for="number">Número</label>
+                                <input type="number" name="number" ng-model="client.address.numero" class="ui input" required />
+
+                                <div class="ui pointing red basic label" ng-show="!clientForm.number.$valid && (clientForm.$submitted || !clientForm.number.$pristine)">
+                                    <div ng-show="!clientForm.number.$valid">O Número é Obrigatória</div>
+                                </div>
+
+                            </div>
+
+                            <!--COMPLEMENTO-->
+                            <div class="six wide field">
+                                <label for="complement">Complemento</label>
+                                <input type="text" name="complement" ng-model="client.address.complemento" class="ui input" />
+                            </div>
+                        </div>
+
+                        <div class="fields">
+
+                            <!--BAIRRO-->
+                            <div class="eight wide required field" ng-class="{'error' : !clientForm.neighborhood.$valid && (clientForm.$submitted || !clientForm.neighborhood.$pristine)}">
+                                <label for="bairro">Bairro</label>
+                                <input type="text" name="neighborhood" ng-model="client.address.bairro" class="ui input" required />
+
+                                <div class="ui pointing red basic label" ng-show="!clientForm.neighborhood.$valid && (clientForm.$submitted || !clientForm.neighborhood.$pristine)">
+                                    <div ng-show="!clientForm.neighborhood.$valid">O Bairro é Obrigatória</div>
+                                </div>
+
+                            </div>
+
+                            <!--CIDADE-->
+                            <div class="four wide required field" ng-class="{'error' : !clientForm.city.$valid && (clientForm.$submitted || !clientForm.city.$pristine)}">
+
+                                <label for="city">Cidade</label>
+                                <input type="text" name="city" ng-model="client.address.cidade" class="ui input" required />
+
+                                <div class="ui pointing red basic label" ng-show="!clientForm.city.$valid && (clientForm.$submitted || !clientForm.city.$pristine)">
+                                    <div ng-show="!clientForm.city.$valid">A Cidade é Obrigatória</div>
+                                </div>
+
+                            </div>
+
+                            <!--ESTADO-->
+                            <div class="four wide required field" ng-class="{'error' : !clientForm.state.$valid && (clientForm.$submitted || !clientForm.state.$pristine)}">
+
+                                <label for="state">Estado</label>
+                                <input type="text" name="state" ng-model="client.address.estado" class="ui input" required />
+
+                                <div class="ui pointing red basic label" ng-show="!clientForm.state.$valid && (clientForm.$submitted || !clientForm.state.$pristine)">
+                                    <div ng-show="!clientForm.state.$valid">O Estado é Obrigatória</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--CONTATO-->
+                    <div class="ui form stackable fluid raised segment">
+
+                        <div class="ui blue ribbon large label" style="margin-bottom: 20px">
+                            Contato
+                        </div>
+
+                        <div class="fields">
+
+                            <!--TELEFONE FIXO-->
+                            <div class="four wide field">
+                                <label for="telFixo">Telefone Fixo</label>
+                                <input type="tel" name="telFixo" class="ui input" ui-mask="(99) 9999-9999" ng-model="client.contact.landLine" />
+                            </div>
+
+                            <!--CELULAR-->
+                            <div class="four wide field">
+                                <label for="telCelular">Celular</label>
+                                <input type="tel" name="telCelular" class="ui input" ui-mask="(99) 99999-9999" ng-model="client.contact.cellPhone" />
+                            </div>
+                        </div>
+
+                        <div class="fields">
+
+                            <!--EMAIL-->
+                            <div class="eight wide required field" ng-class="{'error' : !clientForm.email.$valid && (clientForm.$submitted || !clientForm.email.$pristine)}">
+
+                                <label for="email">Email</label>
+                                <input type="email" ng-model="client.contact.email" name="email" class="ui input" required />
+
+                                <div class="ui pointing red basic label" ng-show="!clientForm.email.$valid && (clientForm.$submitted || !clientForm.email.$pristine)">
+                                    <div ng-show="!clientForm.email.$valid">O Email é Obrigatório</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui six wide stackable column" style="padding-top: 0">
+
+                    <div class="ui stackable raised segment">
+
+                        <div class="ui blue ribbon large label" style="margin-bottom: 20px">
+                            Avaliações
+                        </div>
+
+                        <div class="ui stackable two column grid">
+
+                            <div class="row">
+
+                                <div class="ui stackable column" style="padding: 0">
+
+                                    <div class="ui large label">
+                                        Como você Avalia o Cliente
+                                    </div>
+
+                                </div>
+
+                                <div class="ui stackable column" style="padding: 0">
+
+                                    <div class="ui huge star rating"></div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="ui stackable column" style="padding: 0">
+
+                                    <div class="ui large label">
+                                        Como o Cliente te Avalia
+                                    </div>
+
+                                </div>
+
+                                <div class="ui stackable column" style="padding: 0">
+
+                                    <div class="ui huge star rating"></div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="ui stackable raised segment">
+
+                        <div class="ui blue ribbon large label" style="margin-bottom: 20px">
+                            Histórico de Transações
+                        </div>
+
+                        <div class="ui stackable two column grid">
+
+                            <div class="row">
+
+                                <div class="ui stackable column" style="padding: 0">
+
+                                    <div class="ui large label">
+                                        Orçamentos Solicitados
+                                    </div>
+
+                                </div>
+
+                                <div class="ui stackable column" style="padding: 0">
+
+                                    <a class="ui blue basic label">6</a>
+
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="ui stackable column" style="padding: 0">
+
+                                    <div class="ui large label">
+                                        Pedidos Realizados
+                                    </div>
+
+
+                                </div>
+
+                                <div class="ui stackable column" style="padding: 0">
+
+                                    <a class="ui blue basic label">3</a>
+
+                                </div>
+
+                            </div>
+
+                            <div class="ui divider" style="margin: 0"></div>
+
+                            <div class="row">
+
+                                <div class="ui stackable column" style="padding: 0">
+
+                                    <div class="ui large label">
+                                        <h4>Taxa de Conversão</h4>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="ui stackable column" style="padding: 0">
+
+                                    <a class="ui blue basic label">50%</a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--GRID PAGE-->
+
+</form>
+
+<!--MODALS-->
+
+<!--REMOVER CLIENTE-->
+<div id="removeClientModal" class="ui basic modal">
+    <div class="header">
+        <h1>Excluir Cliente</h1>
+    </div>
+    <div class="image content">
+        <div class="description">
+            <h4>Deseja realmente excluir o(a) Cliente {{nameClient}}? Essa ação não poderá ser desfeita.</h4>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="ui ok green button" ng-click="removeClient()">
+            <i class="checkmark icon"></i> Excluir
+        </button>
+        <button class="ui cancel red button">
+            <i class="checkmark icon"></i> Cancelar
+        </button>
+    </div>
+</div>
+
+<!--CRIAR NOVO CLIENTE - LIMPAR FORMULARIO-->
+<div id="newClientModal" class="ui basic modal">
+    <div class="header">
+        <h1>Novo Cliente</h1>
+    </div>
+    <div class="image content">
+        <div class="description">
+            <h4>Deseja descartar as alterações realizadas e cadastrar um novo Cliente?</h4>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="ui ok green button" ng-click="loadClient(0)">
+            <i class="checkmark icon"></i> Descartar e Criar Novo
+        </button>
+        <button class="ui cancel red button">
+            <i class="checkmark icon"></i> Cancelar
+        </button>
+    </div>
+</div>
+
+<!--MODAL AJUDA-->
+<div id="showHelpModal" class="ui large modal" style="font-size: 1.1em">
+
+    <i class="close icon"></i>
+
+    <div class="header">
+        <i class="bordered users icon"></i> Cliente
+        <div class="sub-header">
+
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="description">
+            <h4>O que é?</h4>
+            <p>
+                São todos aqueles que irão comprar seus Produtos, sejam pessoas comuns ou empresas.
+            </p>
+
+            <h4>Importância</h4>
+            <p>
+                O Cliente é a parte mais importante de qualquer negócio, superar suas expectativas de forma positiva é a chave do sucesso.
+            </p>
+
+            <h4>Como Cadastrar?</h4>
+            <p>
+                Cadastrar o cliente com os dados corretos permite que você o identifique de forma rápida e ágil.
+
+                <ul>
+                    <li>
+                        <strong>Informações Comerciais:</strong> São dados que permitem identificar o cliente, as Informações
+                        necessárias são diferentes de acordo com o tipo do cliente (Pessoa física ou jurídica)
+                    </li>
+                    <li>
+                        <strong>Endereço:</strong> Local da residência do cliente
+                    </li>
+                    <li>
+                        <strong>Contato</strong> Informações para entrar em contato com o cliente, é fundamental que estejam
+                        corretas, toda comunicação será feita através desses dados
+                    </li>
+                </ul>
+            </p>
+
+            <h4>Avaliações</h4>
+            <p>
+                Mostra como está sua relação com o Cliente, as notas variam de 1 a 5 estrelas
+
+                <ul>
+                    <li>
+                        <strong>Como você avalia o cliente:</strong> Escolha quantas estrelas este cliente merece, foi Educado?
+                        Te pagou de forma correta? Desistiu sem dar explicação? Considere tudo isso mas lembre-se, o cliente
+                        tem sempre razão.
+                    </li>
+                    <li>
+                        <strong>Como o cliente te avalia</strong> Essa é a parte mais importante e demonstra o que seu cliente
+                        pensa a respeito do seu trabalho, poucas estrelas podem indicar que você deixou a desejar, mas não
+                        se preocupe, sempre que um cliente te avaliar mal iremos lhe informa para que você possa tentar entender
+                        o que aconteceu
+                    </li>
+                </ul>
+
+            </p>
+
+            <h4>Histórico de Transações</h4>
+            <p>
+                Permite saber de forma resumida quantos orçamentos esse cliente já solicitou, quantas vezes fez um pedido.
+            </p>
+            <br>
+        </div>
+
+        <strong>Caso tenha ficado com alguma dúvida, clique em "Contato" no Menu superior que irémos lhe ajudar.</strong>
+    </div>
+
+    <div class="actions">
+
+        <button class="ui ok green button">
+            <i class="checkmark icon"></i> Finalizar
+        </button>
+
+    </div>
+
+</div>

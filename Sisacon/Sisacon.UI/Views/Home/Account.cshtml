@@ -1,0 +1,37 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="pt-br" ng-app="app">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>BeloArte</title>
+    <link rel="shortcut icon" href="~/Content/logo.ico" type="image/x-icon" />
+    @Styles.Render("~/bundles/style")
+</head>
+<body ng-controller="LandingPageController" ng-cloak>
+    
+    <div class="ui big top stackable menu">
+            <a href="LandingPage" class="header item">
+                <img class="ui centered tiny image" src="/Content/logo.png" alt="BeloArte" />
+            </a>
+            <div class="right menu">
+                <div class="item">
+                    <a href="#/singup" class="ui primary button">Cadastre-se</a>
+                </div>
+                <div class="item">
+                    <a href="#/login" class="ui positive button">Entrar</a>
+                </div>
+            </div>
+        </div>
+
+    <ng-view>
+
+    </ng-view>
+
+    @Scripts.Render("~/bundles/jquery") @Scripts.Render("~/bundles/angular")
+</body>
+</html>

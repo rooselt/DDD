@@ -1,0 +1,91 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="pt-br" ng-app="app">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeloArt</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="~/Content/logo.ico" type="image/x-icon" />
+    @Styles.Render("~/bundles/style")
+
+</head>
+<body ng-controller="AdminController" ng-cloak>
+
+    <!--BARRA LATERAL-->
+    <div id="sidebar" class="ui inverted vertical accordion menu wide sidebar">
+
+        <div class="item">
+            <!--LOG-->
+            <a class="title">
+                <i class="dropdown icon"></i>
+                <span class="ui inverted header"><i class="bug icon"></i>Logs do Sistema</span>
+            </a>
+            <div class="content">
+                <div class="item">
+                    <a href="#/logDashboard" class="ui labeled blue fluid large icon button">
+                        <i class="desktop icon"></i>
+                        Lista de Logs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--CONTEUDO A SER EMPURRADO PELA BARRA LATERAL-->
+    <div class="dimmed pusher">
+
+        <!--MENU PRICIPAL - TOP-->
+        <div class="ui inverted attached stackable menu">
+            <a ng-click="openMenu()" class="item">
+                <i class="large orange sidebar icon"></i>Menu
+            </a>
+            <a class="item" href="#/initialAdminDashboard">
+                <i class="large orange home icon"></i>Painel Inicial
+            </a>
+            <div class="right menu">
+
+                <!--NOTIFICAÇÕES-->
+                <a id="btnNotification" class="item">
+                    <i class="large alarm outline orange icon"></i> Notificações
+                    <div class="floating bottom ui orange label" ng-if="notifications.length > 0">{{notifications.length}}</div>
+                </a>
+                <!--AGENDA-->
+                <a href="#/calendar" class="item">
+                    <i class="large calendar orange icon"></i> Agenda
+                </a>
+                <a href="#/configuration" class="item">
+                    <i class="large settings orange icon"></i> Configurações
+                </a>
+                <!--FEEDBACK-->
+                <a href="#/feedback" class="item">
+                    <i class="large announcement orange icon"></i> Feedback
+                </a>
+                <!--USUARIO-->
+                <a href="#/myAccount" class="item">
+                    <i class="large user orange icon"></i> Usuários
+                </a>
+                <!--LOGOUT-->
+                <a class="item" ng-click="logout()">
+                    <i class="large sign out orange icon"></i> Sair
+                </a>
+            </div>
+        </div>
+        <div style="height:1px"></div>
+
+        <!--CONTEUDO DINAMICO-->
+        <ng-view>
+        </ng-view>
+
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/angular")
+</body>
+</html>

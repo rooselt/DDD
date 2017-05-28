@@ -1,0 +1,339 @@
+﻿<div class="ui stackable grid">
+
+    <div class="ui sixteen wide stackable column">
+
+        <div class="ui stackable borderless menu">
+
+            <div class="header item">
+
+                <h3 class="ui header">
+                    <i class="bordered diamond icon"></i>
+                    <div class="content"> Produto
+                        <div class="inverted sub header">
+                            Edite ou Cadastre um Novo Produto
+                        </div>
+                    </div>
+                </h3>
+
+            </div>
+
+            <div class="right item">
+                <a class="ui labeled primary icon button" href="#/productList">
+                    <i class="long arrow left icon"></i> Voltar
+                </a>
+            </div>
+            <div class="right item" style="margin-left: 0 !important; padding-left: 0">
+                <a class="ui labeled primary icon button">
+                    <i class="edit icon"></i>Novo Produto
+                </a>
+            </div>
+            <div class="right item" style="margin-left: 0 !important; padding-left: 0">
+                <a class="ui labeled primary icon button">
+                    <i class="remove icon"></i>Excluir
+                </a>
+            </div>
+            <div class="right item" style="margin-left: 0 !important; padding-left: 0">
+                <a class="ui labeled primary icon button">
+                    <i class="checkmark icon"></i> {{vm.btnSaveText}}
+                </a>
+            </div>
+            <div class="right item" style="margin-left: 0 !important; padding-left: 0">
+                <a class="ui icon orange button">
+                    <i class="help icon"></i>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+    <!--TOP MENU-->
+
+    <div class="ui sixteen wide stackable centered column" style="padding:0;padding-left: 14px">
+
+        <div class="ui stackable grid">
+
+            <div class="ui ten wide stackable column" style="padding-top: 0">
+
+                <form name="productForm" class="ui form" novalidate>
+
+                    <!--DETALHES-->
+                    <div class="ui form stackable fluid raised segment" style="padding: 0">
+
+                        <div class="ui blue ribbon large label" style="margin: 14px 14px 14px">
+                            Detalhes do Produto
+                        </div>
+
+                        <!--CODIGO PRODUTO-->
+                        <div class="fields" style="margin: 0 14px 0" ng-show="vm.product.id > 0 || !vm.configuration.codAutoProduct">
+
+                            <div class="three wide field">
+                                <label for="cod">Código do Produto</label>
+                                <input type="text" name="cod" class="ui input" ng-required="vm.product.id == 0 && !vm.configuration.codAutoProduct" ng-readonly="vm.configuration.codAutoProduct"
+                                    ng-model="vm.product.codProduct" />
+                            </div>
+                            <div class="three wide field">
+                                <label for="registration">Data de Cadastro</label>
+                                <input type="text" name="registration" ui-mask="99/99/9999" class="ui input" readonly ng-model="vm.product.registrationDate"
+                                />
+                            </div>
+                        </div>
+
+                        <!--DESCRICAO-->
+                        <div class="ui eight wide required field" style="margin: 0 14px 14px" ng-class="{'error' : !productForm.description.$valid && (productForm.$submitted || !productForm.description.$pristine)}">
+
+                            <label for="description">Descrição</label>
+                            <input type="text" name="description" ng-model="vm.product.description" maxlength="100" class="ui input" required>
+
+                            <div class="ui pointing red basic label" ng-show="!productForm.description.$valid && (productForm.$submitted || !productForm.description.$pristine)">
+                                <div ng-show="!clientForm.neighborhood.$valid">A Descrição é Obrigatória</div>
+                            </div>
+                        </div>
+
+                        <!--INFORMAÇÃO DO PRODUTO-->
+                        <div class="ui twelve wide required field" style="margin: 0 14px 0" ng-class="{'error' : !productForm.info.$valid && (productForm.$submitted || !productForm.info.$pristine)}">
+
+                            <label for="info">Informações do Produto</label>
+                            <textarea type="text" name="info" ng-model="vm.product.info" maxlength="500" rows="5" class="ui input" required></textarea>
+
+                            <div class="ui pointing red basic label" ng-show="!productForm.info.$valid && (productForm.$submitted || !productForm.info.$pristine)">
+                                <div ng-show="!clientForm.neighborhood.$valid">A Informação é Obrigatória</div>
+                            </div>
+                        </div>
+
+                        <div class="ui  divider"></div>
+
+                        <button class="ui positive button" style="margin: 0 14px 14px" ng-click="vm.showModalAddMaterial()" ng-disabled="vm.product.id == 0">
+                            <i class="plus icon"></i>
+                            Relacionar Materia Prima ao Produto
+                        </button>
+
+                        <label>&nbsp</label>
+                        <button type="button" class="ui square icon yellow button" data-content="Informe quais Materiais foram utilizados para criar este produto."
+                            data-variation="inverted">
+                            <i class="info icon"></i>
+                            </button>
+
+                    </div>
+
+                    <!--DEFINIÇÃO DO PREÇO -->
+                    <div class="ui stackable fluid raised segment">
+
+                        <div class="ui blue ribbon large label" style="margin-bottom: 14px">
+                            Definição do Preço
+                        </div>
+
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" ng-model="vm.product.setValueManually" name="setValueManually" />
+                                <label for="setValueManually">Definir o valor do Produto manualmente? (Não recomendado)</label>
+                            </div>
+                        </div>
+
+                        <div class="fields" ng-show="!vm.product.setValueManually">
+
+                            <div class="ui three wide field">
+
+                                <label for="profitPercentage">Percentual de Lucro</label>
+                                <div class="ui right labeled input">
+                                    <input type="number" name="profitPercentage" ng-model="vm.product.profitPercentage">
+                                    <div class="ui basic label">
+                                        %
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field">
+
+                                <label>&nbsp</label>
+                                <button type="button" class="ui square icon yellow button" data-content="Defina qual percentual de lucro você pretende ter. Produtos personalizados ou com grande valor agregado devem ter um lucro maior."
+                                    data-variation="inverted">
+                                    <i class="info icon"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="fields" ng-show="!vm.product.setValueManually">
+
+                            <div class="ui three wide field">
+
+                                <label for="hoursToProduce">Horas para produzir</label>
+                                <input type="number" name="hoursToProduce" value="" ng-model="vm.product.hoursToProduce">
+                            </div>
+
+                            <div class="ui three wide field">
+
+                                <label for="minutesToProduce">Minutos para produzir</label>
+                                <input type="number" name="MinutesToProduce" value="" ng-model="vm.product.minutesToProduce">
+                            </div>
+
+                            <div class="field">
+
+                                <label>&nbsp</label>
+                                <button type="button" class="ui square icon yellow button" data-content="Quantidade de tempo necessário para fabricar uma unidade do produto."
+                                    data-variation="inverted">
+                                    <i class="info icon"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="fields" ng-show="vm.product.setValueManually">
+
+                            <div class="ui three wide field">
+                                <label for="value">Valor do Produto</label>
+                                <div class="ui right labeled input">
+                                    <input type="number" name="value" ng-model="vm.product.value">
+                                    <div class="ui basic label">
+                                        R$
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <!--LISTA DE MATERIAIS USADOS-->
+                    <div class="ui form stackable fluid raised segment" style="padding: 0" ng-show="vm.product.listMaterial.length > 0">
+
+                        <div class="ui blue ribbon large label" style="margin: 14px 14px 14px">
+                            Materiais utilizados neste Produto
+                        </div>
+
+                        <table datatable="ng" dt-options="vm.dtOptions" class="ui striped selectable table" style="width:100%; padding: 0">
+                            <thead>
+                                <tr>
+                                    <th>Descrição</th>
+                                    <th>Categoria</th>
+                                    <th>Preço</th>
+                                    <th class="collapsing">Visualizar</th>
+                                    <th class="collapsing">Remover</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in vm.materials">
+                                    <td>{{item.description}}</td>
+                                    <td>{{item.category.description}}</td>
+                                    <td>{{item.currentPrice | currency:"R$ "}}</td>
+                                    <td class="center aligned">
+                                        <a class="ui primary square icon button" ng-href="#/newMaterial?id={{item.id}}" title="Visualizar Material">
+                                            <i class="ui right arrow icon"></i>
+                                        </a>
+                                    </td>
+                                    <td class="center aligned">
+                                        <a class="ui red square icon button" title="Remover deste Produto">
+                                            <i class="ui remove icon"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </form>
+            </div>
+
+            <!--TOTAIS-->
+            <div class="ui six wide stackable column" style="padding-top:0">
+
+                <div class="ui form stackable fluid raised segment">
+
+                    <div class="ui blue ribbon large label">
+                        Totais
+                    </div>
+
+                    <div class="ui stackable two column grid">
+
+                        <div class="row">
+
+                            <div class="ui stackable column" style="padding: 0;margin-top: 10px">
+
+                                <div class="ui label">
+                                    <h4>Valor da Hora Trabalhada</h4>
+                                </div>
+
+                            </div>
+
+                            <div class="ui stackable column" style="padding: 0">
+
+                                <a class="ui big blue tag label">{{vm.cost.costPerHour | currency:"R$ "}}</a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--IMAGES-->
+    <div class="ui sixteen wide stackable centered column" style="padding:0;padding-left: 14px" ng-show="vm.product.listMaterial.length > 0">
+
+        <div class="ui stackable grid">
+
+            <div class="ui sixteen wide stackable column" style="padding-top:0">
+
+                <div class="ui form stackable fluid raised segment">
+
+                    <div class="ui blue ribbon large label" style="margin-bottom: 20px">
+                        Imagens
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--MODALS-->
+
+<!--ADICIONAR MATERIA PRIMA-->
+<div id="addMaterialModal" class="ui small modal">
+    <i class="close icon"></i>
+    <div class="content">
+
+        <div class="ui floating message">
+            <div class="header">
+                Lista de Materiais
+            </div>
+            <p>
+                Informe os Materiais necessários para a fabricação deste Produto.
+            </p>
+        </div>
+        <form class="ui form">
+
+            <div class="ui six wide field">
+
+                <label for="search">Pesquisar</label>
+                <input type="text" name="search" class="ui input" ng-model="search">
+            </div>
+
+            <div class="ui divider"></div>
+
+            <div class="ui middle aligned animated divided list">
+                <div class="item" ng-repeat="item in vm.materials | filter:search" style="margin-bottom: 14px">
+                    <div class="right floated content">
+                        <div class="ui primary labered icon button">
+                            <i class="plus icon"></i>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <h4 class="header">{{item.description}} - {{item.currentPrice | currency: "R$ "}}</h4>
+                        {{item.category.description}}
+
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="actions">
+        <button class="ui ok green button">
+            <i class="checkmark icon"></i>Finalizar
+        </button>
+    </div>
+</div>

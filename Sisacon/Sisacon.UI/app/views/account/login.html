@@ -1,0 +1,46 @@
+﻿<div class="ui grid">
+    <div class="ui four wide centered column">
+        <form class="ui form" name="loginForm" ng-submit="login()" novalidate>
+            <br />
+            <div class="ui stackable segment">
+                <img class="ui centered image" src="/Content/logo.png" alt="BeloArte" />
+                <br />
+                <!--EMAIL-->
+                <div class="ui required field" ng-class="{'error' : !loginForm.email.$valid && (loginForm.$submitted || !loginForm.email.$pristine)}">
+                    <label for="email">Email</label>
+                    <input type="email" ng-model="account.email" name="email" class="ui input" required/>
+                    <div class="ui pointing basic red label" ng-show="!loginForm.email.$valid && (loginForm.$submitted || !loginForm.email.$pristine)">
+                        <div ng-show="loginForm.email.$error.required">O Email é Obrigatório</div>
+                        <div ng-show="loginForm.email.$error.email">O E-mail informado não é válido</div>
+                    </div>
+                </div>
+
+                <!--SENHA-->
+                <div class="required field" ng-class="{'error' : !loginForm.password.$valid && (loginForm.$submitted || !loginForm.password.$pristine)}">
+                    <label for="password">Senha</label>
+                    <input type="password" ng-model="account.password" name="password" class="ui input" required/>
+                    <div class="ui pointing basic red label" ng-show="!loginForm.password.$valid && (loginForm.$submitted || !loginForm.password.$pristine)">
+                        <div ng-show="loginForm.password.$error.required">A Senha é Obrigatória</div>
+                    </div>
+                </div>
+
+                <!--RECUPERAR SENHA-->
+                <div class="field">
+                    <a href="#">Esqueceu sua senha?</a>
+                </div>
+
+                <!--LOGAR-->
+                <div class="field">
+                    <button type="submit" class="ui fluid positive button">
+                    Entrar
+                </button>
+                </div>
+            </div>
+            <div class="ui centered stackable segment">
+                <label class="ui centered">Novo por aqui?</label>
+                <a class="ui centered" href="#/singup">Crie já sua conta.</a>
+            </div>
+        </form>
+    </div>
+
+</div>

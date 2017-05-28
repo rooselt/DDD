@@ -1,0 +1,94 @@
+﻿<form name="listClientForm" novalidate>
+
+    <div class="ui stackable grid">
+
+        <div class="ui sixteen wide stackable column">
+
+            <div class="ui stackable borderless menu">
+
+                <div class="header item">
+
+                    <h3 class="ui header">
+                        <i class="truck bordered icon"></i>
+                        <div class="content">
+                            Fornecedores
+                            <div class="inverted sub header">
+                                Lista de Fornecedores Cadastrados
+                            </div>
+                        </div>
+                    </h3>
+
+                </div>
+
+                <div class="right item">
+                    <a class="ui labeled primary icon button" href="#/newProvider?id=0">
+                        <i class="edit icon"></i> Novo Fornecedor
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="ui stackable segment" style="padding: 14px 0 0 0">
+
+                <table datatable="ng" dt-options="vm.dtOptions" class="ui striped collapsing selectable table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>CNPJ</th>
+                            <th>Nome Fantasia</th>
+                            <th>Razão Social</th>
+                            <th>Rua</th>
+                            <th>Número</th>
+                            <th>Bairro</th>
+                            <th>Cidade</th>
+                            <th>Estado</th>
+                            <th class="collapsing">Editar</th>
+                            <th class="collapsing">Excluir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.providerList">
+                            <td>{{item.codProvider}}</td>
+                            <td>{{item.cnpj}}</td>
+                            <td>{{item.fantasyName}}</td>
+                            <td>{{item.socialReasonName}}</td>
+                            <td>{{item.address.logradouro}}</td>
+                            <td>{{item.address.numero}}</td>
+                            <td>{{item.address.bairro}}</td>
+                            <td>{{item.address.cidade}}</td>
+                            <td>{{item.address.estado}}</td>
+                            <td><button class="ui primary square icon button" ng-click="vm.editProvider(item.id)"><i class="ui edit icon"></i></button></td>
+                            <td><button class="ui red square icon button" ng-click="vm.showModalRemoveProvider(item)"><i class="ui remove icon"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <!--SIXTEEN COLUMN-->
+
+    </div>
+    <!--GRID PAGE-->
+
+</form>
+<!--FORM-->
+
+<!--MODALS-->
+<div id="removeProviderModal" class="ui basic modal">
+    <div class="header">
+        <h1>Excluir Fornecedor</h1>
+    </div>
+    <div class="image content">
+        <div class="description">
+            <h4>Deseja realmente excluir o Fornecedor {{nameProvider}}? Essa ação não poderá ser desfeita.</h4>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="ui ok green button" ng-click="vm.removeProviderFromList()">
+            <i class="checkmark icon"></i> Excluir
+        </button>
+        <button class="ui cancel red button">
+            <i class="checkmark icon"></i> Cancelar
+        </button>
+    </div>
+</div>

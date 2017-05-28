@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{549A3C23-002A-4396-BFEA-CC2CD7DF3EAA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sisacon.Domain</RootNamespace>
+    <AssemblyName>Sisacon.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\Client.cs" />
+    <Compile Include="Entities\Company.cs" />
+    <Compile Include="Entities\Configuration.cs" />
+    <Compile Include="Entities\Cost.cs" />
+    <Compile Include="Entities\CostConfiguration.cs" />
+    <Compile Include="Entities\Equipment.cs" />
+    <Compile Include="Entities\Material.cs" />
+    <Compile Include="Entities\Product.cs" />
+    <Compile Include="Interfaces\Repositories\ICostCategoryRepository.cs" />
+    <Compile Include="Interfaces\Repositories\ICostConfigurationRepository.cs" />
+    <Compile Include="Interfaces\Repositories\ICostRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IFixedCostRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IMaterialCategoryRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IMaterialRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IPriceResearchRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IProductRepository.cs" />
+    <Compile Include="Interfaces\Services\ICostCategoryService.cs" />
+    <Compile Include="Interfaces\Services\ICostConfigurationService.cs" />
+    <Compile Include="Interfaces\Services\ICostService.cs" />
+    <Compile Include="Interfaces\Services\IFixedCostService.cs" />
+    <Compile Include="Interfaces\Services\IMaterialCategoryService.cs" />
+    <Compile Include="Interfaces\Services\IMaterialService.cs" />
+    <Compile Include="Interfaces\Services\IPriceResearchService.cs" />
+    <Compile Include="Interfaces\Services\IProductService.cs" />
+    <Compile Include="Services\CostCategoryService.cs" />
+    <Compile Include="Services\CostConfigurationService.cs" />
+    <Compile Include="Services\CostService.cs" />
+    <Compile Include="Services\FixedCostService.cs" />
+    <Compile Include="Services\MaterialCategoryService.cs" />
+    <Compile Include="Services\MaterialService.cs" />
+    <Compile Include="Services\PriceResearchService.cs" />
+    <Compile Include="Services\ProductService.cs" />
+    <Compile Include="ValueObjects\CostCategory.cs" />
+    <Compile Include="ValueObjects\CountEntities.cs" />
+    <Compile Include="ValueObjects\FixedCost.cs" />
+    <Compile Include="ValueObjects\MaterialCategory.cs" />
+    <Compile Include="Entities\Provider.cs" />
+    <Compile Include="Enuns\OperationType.cs" />
+    <Compile Include="Enuns\PersonType.cs" />
+    <Compile Include="Enuns\Sex.cs" />
+    <Compile Include="Enuns\AccountType.cs" />
+    <Compile Include="Interfaces\Repositories\IClientRepository.cs" />
+    <Compile Include="Interfaces\Repositories\ICompanyRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IEquipmentRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IOccupationAreaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IProviderRepository.cs" />
+    <Compile Include="Interfaces\Services\IClientService.cs" />
+    <Compile Include="Interfaces\Services\ICompanyService.cs" />
+    <Compile Include="Interfaces\Services\IEquipmentService.cs" />
+    <Compile Include="Interfaces\Services\IOccupationAreaService.cs" />
+    <Compile Include="Interfaces\Services\IProviderService.cs" />
+    <Compile Include="Services\ClientService.cs" />
+    <Compile Include="Services\CompanyService.cs" />
+    <Compile Include="Services\EquipmentService.cs" />
+    <Compile Include="Services\OccupationAreaService.cs" />
+    <Compile Include="Services\ProviderService.cs" />
+    <Compile Include="ValueObjects\Contact.cs" />
+    <Compile Include="Entities\Log.cs" />
+    <Compile Include="Entities\Notification.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Enuns\ErrorGravity.cs" />
+    <Compile Include="Enuns\NotificationClass.cs" />
+    <Compile Include="Enuns\UserType.cs" />
+    <Compile Include="Interfaces\Repositories\IConfigurationRepository.cs" />
+    <Compile Include="Interfaces\Repositories\ILogRepository.cs" />
+    <Compile Include="Interfaces\Repositories\INotificationRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryBase.cs" />
+    <Compile Include="Interfaces\Repositories\IUserRepository.cs" />
+    <Compile Include="Interfaces\Services\IConfigurationService.cs" />
+    <Compile Include="Interfaces\Services\INotificationService.cs" />
+    <Compile Include="Interfaces\Services\IServiceBase.cs" />
+    <Compile Include="Interfaces\Services\ILogService.cs" />
+    <Compile Include="Interfaces\Services\IUserService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ConfigurationService.cs" />
+    <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Services\ServiceBase.cs" />
+    <Compile Include="Services\LogService.cs" />
+    <Compile Include="Services\UserService.cs" />
+    <Compile Include="ValueObjects\Address.cs" />
+    <Compile Include="ValueObjects\BankDetails.cs" />
+    <Compile Include="ValueObjects\OccuppationArea.cs" />
+    <Compile Include="ValueObjects\PriceResearch.cs" />
+    <Compile Include="ValueObjects\ProductImages.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{61bfeae2-eb48-4f14-b399-4c3173a35aa7}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

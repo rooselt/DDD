@@ -1,0 +1,131 @@
+﻿<div class="ui grid">
+
+    <div class="ui ten wide centered column">
+        <div class="ui stackable segment" ng-init="step1 = true">
+            <form name="singupForm" class="ui stackable form" ng-submit="createUser()" novalidate>
+                <div class="ui two top attached steps">
+                    <div class="step" ng-class="{'active' : step1}">
+                        <i class="user icon"></i>
+                        <div class="content">
+                            <div class="title">
+                                Usuário
+                            </div>
+                            <div class="description">
+                                Defina um Usuário e uma Senha para garantir a segurança dos seus dados.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step" ng-class="{'active' : step3}">
+                        <i class="money icon"></i>
+                        <div class="content">
+                            <div class="title">
+                                Plano
+                            </div>
+                            <div class="description">
+                                Escolha o melhor plano para sua nova Empresa.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Cadastro de Usuario-->
+                <div class="ui stackable grid" ng-show="step1">
+                    <div class="ui eight wide column">
+                        <!--EMAIL-->
+                        <div class="ui required field" ng-class="{'error' : !singupForm.email.$valid && (singupForm.$submitted || !singupForm.email.$pristine)}">
+                            <label for="email">
+                            Email
+                        </label>
+                            <input name="email" type="email" validate-email ng-model="account.email" class="ui input" required />
+                            <div class="ui pointing red basic label" ng-show="!singupForm.email.$valid && (singupForm.$submitted || !singupForm.email.$pristine)">
+                                <div ng-show="singupForm.email.$error.required">O E-mail é Obrigatório</div>
+                                <div ng-show="singupForm.email.$error.email">O E-mail informado está em um formato Inválido</div>
+                                <span ng-show="!singupForm.email.$error.required && !singupForm.email.$error.email && !singupForm.email.$valid">{{errorMessage}}</span>
+                            </div>
+                        </div>
+                        <!--SENHA-->
+                        <div class="ui required field" ng-class="{'error' : !singupForm.password.$valid && (singupForm.$submitted || !singupForm.password.$pristine)}">
+                            <label for="password">Senha</label>
+                            <div class="ui action input">
+                                <input type="password" name="password" ng-model="account.password" class="ui input" required minlength="6" />
+                                <button type="button" class="ui icon button" data-title="Segurança" data-content="A senha precisa ter no mínimo 6 caractéres"
+                                    data-variation="inverted">
+                                <i class="help icon"></i>
+                            </button>
+                            </div>
+                            <div class="ui pointing basic red label" ng-show="!singupForm.password.$valid && (singupForm.$submitted || !singupForm.password.$pristine)">
+                                <div ng-show="singupForm.password.$error.required">A Senha é Obrigatória</div>
+                                <div ng-show="singupForm.password.$error.minlength">A Senha precisa ter no mínino 6 caractéres</div>
+                            </div>
+                        </div>
+                        <!--CONFIRMAÇÃO DE SENHA-->
+                        <div class="ui required field" ng-class="{'error' : !singupForm.confirmPassword.$valid && (singupForm.$submitted || !singupForm.confirmPassword.$pristine)}">
+                            <label for="confirmPassword">Confirmar Senha</label>
+                            <input type="password" name="confirmPassword" ng-model="account.confirmPassword" class="ui input" required minlength="6"
+                            />
+                            <div class="ui pointing basic red label" ng-show="!singupForm.confirmPassword.$valid && (singupForm.$submitted || !singupForm.confirmPassword.$pristine)">
+                                <div ng-show="singupForm.confirmPassword.$error.required">A Confirmação da Senha é Obrigatória</div>
+                                <div ng-show="singupForm.confirmPassword.$error.minlength">A Senha precisa ter no mínino 6 caractéres</div>
+                                <div ng-show="singupForm.confirmPassword.$validators.notEquals">As Senhas informadas não são iguais</div>
+                            </div>
+                        </div>
+
+                        <div class="ui field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" ng-click="AcceptedTerms()" name="terms" />
+                                <label for="terms">
+                                Declaro que li e aceito o <a href="#/serviceTerms">Termo de Serviço</a> e o <a href="#/privacyTerms">Termo de Privacidade.</a>
+                            </label>
+                            </div>
+                        </div>
+
+                        <div class="ui field">
+                            <button class="ui positive button" type="submit" ng-class="{'disabled' : !termsAccepted}">
+                            Confirmar
+                        </button>
+                        </div>
+
+                    </div>
+                    <div class="ui eight wide column">
+                        <table class="ui table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Alguns Benefícios do usuário Sisacon
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <i class="large green checkmark icon"></i> Agilidade na emissão de Orçamentos
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="large green checkmark icon"></i> Transparência na execução dos Pedidos
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="large green checkmark icon"></i> Controle de Custos Fixos e Variáveis
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="large green checkmark icon"></i> Controle de Despesas
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="large green checkmark icon"></i> Agenda de Eventos
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

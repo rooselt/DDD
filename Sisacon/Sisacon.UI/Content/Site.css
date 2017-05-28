@@ -1,0 +1,9 @@
+﻿.ui.attached.stackable.inverted.fluid.segment {
+    padding: 6px;
+    border-radius: 0.28571429rem 0.28571429rem 0 0;
+}
+
+.ui.form.attached.stackable.fluid.segment {
+
+    box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
+}

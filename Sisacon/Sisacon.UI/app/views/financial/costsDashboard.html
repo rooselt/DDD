@@ -1,0 +1,230 @@
+﻿<div class="ui stackable grid">
+
+    <div class="ui sixteen wide stackable column" id="top-menu">
+
+        <div class="ui stackable borderless menu">
+
+            <div class="header item">
+
+                <h3 class="ui header">
+                    <i class="bordered bar chart icon"></i>
+                    <div class="content">
+                        Painel de Custos
+                        <div class="inverted sub header">
+                            Resumo dos Custos Mensais de Produção
+                        </div>
+                    </div>
+                </h3>
+
+            </div>
+
+            <div class="right item">
+                <div class="ui labeled primary icon button" ng-click="vm.openModalOptions()">
+                    <i class="configure icon"></i>Configurações de Custo
+                </div>
+            </div>
+            <div class="right item" style="margin-left: 0 !important; padding-left: 0">
+                <div class="ui labeled primary icon button" ng-click="vm.validateNewCost()">
+                    <i class="plus icon"></i>Novo Custo
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!--TOP MENU-->
+
+    <div class="ui eight wide stackable column" style="padding:0;padding-left: 14px" ng-if="vm.listCost.length > 0">
+
+        <div class="ui stackable grid" style="padding-top:0">
+
+            <div class="ui sixteen wide stackable column">
+
+                <div class="ui stackable raised segment" style="padding: 0">
+
+                    <div class="ui blue ribbon large label" style="margin: 14px 14px 14px">
+                        Gráfico por Período
+                    </div>
+
+                    <div class="ui field" style="padding: 14px">
+
+                        <canvas id="line" class="chart chart-bar" chart-data="vm.periodData" chart-labels="vm.periodLabels"></canvas>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="ui eight wide stackable column" style="padding:0;padding-left: 14px" ng-if="vm.listCost.length > 0">
+
+        <div class="ui stackable grid" style="padding-top:0">
+
+            <div class="ui sixteen wide stackable column">
+
+                <div class="ui stackable raised segment" style="padding: 0">
+
+                    <div class="ui blue ribbon large label" style="margin: 14px 14px 14px">
+                        Gráfico por Categoria
+                    </div>
+
+                    <div class="ui field" style="padding: 14px">
+
+                        <canvas id="line" class="chart chart-bar" chart-data="vm.categoryData" chart-labels="vm.categoryLabels"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="ui sixteen wide stackable centered column" style="padding:0;padding-left: 14px">
+
+        <div class="ui stackable grid" style="padding-top:0">
+
+            <div class="ui sixteen wide stackable column">
+
+                <div class="ui stackable raised segment" style="padding: 0">
+
+                    <div class="ui blue ribbon large label" style="margin: 14px 14px 14px">
+                        Histórico de Custos de Produção
+                    </div>
+
+                    <table datatable="ng" dt-options="vm.dtOptions" class="ui striped selectable table" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Mês de Referência</th>
+                                <th>Custo Atual</th>
+                                <th>Horas Trabalhadas</th>
+                                <th>Salário Esperado</th>
+                                <th>Gastos Mensais</th>
+                                <th>Desvalorização de Equipamentos</th>
+                                <th>Total Mensal</th>
+                                <th>Valor da Hora</th>
+                                <th class="collapsing">Editar</th>
+                                <th class="collapsing">Excluir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in vm.listCost" ng-class="{
+                                'positive' : item.totalCost < vm.costConfiguration.maxValue,   
+                                'negative' : item.totalCost > vm.costConfiguration.maxValue}">
+
+                                <td>{{item.referenceMonthText}}</td>
+                                <td ng-if="item.current">Sim</td>
+                                <td ng-if="!item.current">Não</td>
+                                <td>{{item.workedHours}}</td>
+                                <td>{{item.salary | currency:"R$ "}}</td>
+                                <td>{{item.totalFixedCost | currency:"R$ "}}</td>
+                                <td>{{item.totalDevaluationOfEquipment | currency:"R$ "}}</td>
+                                <td>{{item.totalCost | currency:"R$ "}}</td>
+                                <td>{{item.costPerHour | currency:"R$ "}}</td>
+                                <td>
+                                    <button class="ui primary square icon button" ng-click="vm.editCost(item.id)" title="Editar Material">
+                                        <i class="ui edit icon"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="ui red square icon button" ng-click="vm.showModalRemoveMaterial(item)" title="Excluir Material" ng-show="item.current">
+                                        <i class="ui remove icon"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!--GRID CONTENT-->
+
+</div>
+<!--GRID PAGE-->
+
+<!--MODAL-->
+
+<!--MODAL CONFIGURAÇÃO DE CUSTO-->
+<div id="costOptions" class="ui small modal" ng-controller="CostConfiguration as vm">
+    <i class="close icon"></i>
+
+    <div class="header">
+        <i class="configure bordered icon"></i> Configurações de Custo
+    </div>
+
+    <div class="content">
+
+        <form class="ui form" name="costConfigForm" novalidate>
+
+            <div class="ui floating  message">
+                <!--LIMITE DE CUSTOS-->
+                <div class="header">
+                    Definir Limite de Custos
+                </div>
+                <p>
+                    Estabeleça um limite mensal de Gastos, assim você saberá se está gastando mais do que deveria.
+                </p>
+            </div>
+
+            <div class="four wide required field" ng-class="{'error' : (!costConfigForm.maxValue.$valid || vm.costConfiguration.maxValue == 0) && (costConfigForm.$submitted || !costConfigForm.maxValue.$pristine)}">
+
+                <label for="maxValue">Valor máximo</label>
+
+                <div class="ui right labeled input">
+
+                    <input type="number" name="maxValue" ng-model="vm.costConfiguration.maxValue" class="ui input" required/>
+                    <div class="ui basic label">
+                        R$
+                    </div>
+
+                </div>
+
+                <div class="ui pointing red basic label" ng-show="(!costConfigForm.maxValue.$valid || vm.costConfiguration.maxValue == 0) && (costConfigForm.$submitted || !costConfigForm.maxValue.$pristine)">
+
+                    <div ng-show="!costConfigForm.maxValue.$valid || vm.costConfiguration.maxValue == 0">
+                        O Valor Máximo deve ser informado
+                    </div>
+                </div>
+
+            </div>
+
+            <!--INCLUIR DESVALORIZAÇÃO DE EQUIPAMENTOS NOS CUSTOS MENSAIS-->
+            <div class="ui floating  message">
+
+                <div class="header">
+                    Incluir Desvalorização de Equipamentos nos Custos Mensais
+                </div>
+                <p>
+                    Equipamentos se desvalorizam com o tempo, ao incluir a depreciação nos Custos Mensais, você garante um retorno financeiro
+                    para a compra de novos Equipamentos.
+                </p>
+            </div>
+
+            <div class="field">
+
+                <div class="ui checkbox">
+                    <input type="checkbox" ng-model="vm.costConfiguration.includDevaluationOfEquipment">
+                    <label>Incluir Desvalorização de Equipamentos nos Custos Mensais.</label>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+    <div class="actions">
+        <a class="ui green button" ng-click="vm.save()">
+            <i class="checkmark icon"></i> Atualizar
+        </a>
+        <button class="ui cancel red button">
+            <i class="close icon"></i> Cancelar
+        </button>
+    </div>
+</div>

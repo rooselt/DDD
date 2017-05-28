@@ -1,0 +1,145 @@
+﻿<div class="ui sixteen wide stackable column">
+
+	<div class="ui stackable grid">
+
+		<div class="three wide stackable column">
+
+			<div class="ui special cards">
+
+				<div class="ui raised card">
+					<div class="blurring dimmable image">
+						<div class="ui dimmer">
+							<div class="content">
+								<div class="center">
+									<a class="ui primary button" href="#/company">Minha Empresa</a>
+								</div>
+							</div>
+						</div>
+						<img ng-src="data:image/JPEG;base64,{{vm.company.logo}}">
+					</div>
+					<div class="content">
+						<div class="header">{{vm.company.companyName}}</div>
+						<div class="meta">
+							{{vm.company.occupationArea.description}}
+						</div>
+						<div class="description">
+							{{vm.company.slogan}}
+						</div>
+					</div>
+					<div class="extra content">
+						<span class="right floated">Joined in 2013</span>
+						<span><i class="user icon"></i>75 Friends</span>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="nine wide stackable column">
+
+			<div class="ui stackable raised segment">
+
+				<div class="ui icon message">
+					<i class="settings icon"></i>
+					<div class="content">
+						<div class="header">
+							Configuração Inicial
+						</div>
+						<p>Siga os passos abaixo para deixar o <strong>BeloArt</strong> pronto para você.</p>
+					</div>
+				</div>
+
+				<div class="ui two column grid">
+					<div class="column" style="padding: 0">
+						<div class="ui fluid vertical steps">
+							
+							<!--CLIENTES-->
+							<div class="link step" ng-mouseover="vm.showClientCard = true" ng-class="{'completed' : vm.countEntities.clientQuantity > 0}">
+								<i class="users icon"></i>
+								<div class="content">
+									<a class="title" href="#/newClient?id=0">Clientes</a>
+									<div class="description">
+										Cadastrados: {{vm.countEntities.clientQuantity}}
+									</div>
+								</div>
+							</div>
+
+							<!--EQUIPAMENTOS-->
+							<div class="step" ng-class="{'completed' : vm.countEntities.equipmentQuantity > 0}">
+								<i class="print icon"></i>
+								<div class="content">
+									<a class="title" href="#/newEquipment?id=0">Equipamentos</a>
+									<div class="description">Cadastrados: {{vm.countEntities.equipmentQuantity}}</div>
+								</div>
+							</div>
+							
+							<!--FORNECEDORES-->
+							<div class="step" ng-class="{'completed' : vm.countEntities.providerQuantity > 0}">
+								<i class="truck icon"></i>
+								<div class="content">
+									<a class="title" href="#/newProvider?id=0">Fornecedores</a>
+									<div class="description">Cadastrados: {{vm.countEntities.providerQuantity}}</div>
+								</div>
+							</div>
+							
+							<!--MATERIAIS-->
+							<div class="step" ng-class="{'completed' : vm.countEntities.materialQuantity > 0}">
+								<i class="lab icon"></i>
+								<div class="content">
+									<a class="title" href="#/newMaterial?id=0">Materiais</a>
+									<div class="description">Cadastrados: {{vm.countEntities.materialQuantity}}</div>
+								</div>
+							</div>
+
+							<!--PRODUTOS-->
+							<div class="step">
+								<i class="diamond icon"></i>
+								<div class="content">
+									<a class="title" href="#/newProduct?id=0">Produtos</a>
+									<div class="description">Cadastrados: 0</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="column" style="padding-right: 7px">
+						<div class="ui cards">
+
+							<div class="ui fluid raised card" ng-show="vm.showClientCard" style="margin: 0; margin-left: 14px">
+
+								<div class="content">
+									<div class="header">Cliente</div>
+									<div class="description">
+
+									</div>
+									<div class="extra content" style="margin-top: 14px">
+										<a class="ui fluid primary button" href="#/newClient?id=0">
+											Cadastrar Novo Cliente
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="ui indicating progress" data-value="0" data-total="5" style="margin-top: 14px">
+					<div class="bar"></div>
+					<div class="label" style="padding-bottom: 14px"></div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="four wide stackable column">
+
+			<div class="ui stackable raised segment">
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

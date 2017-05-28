@@ -1,0 +1,97 @@
+﻿<form name="materialListForm" novalidate>
+
+    <div class="ui stackable grid">
+
+        <div class="ui sixteen wide stackable column">
+
+            <div class="ui stackable borderless menu">
+
+                <div class="header item">
+
+                    <h3 class="ui header">
+                        <i class="bordered lab icon"></i>
+                        <div class="content">
+                            Materiais
+                            <div class="inverted sub header">
+                                Lista de Materiais Cadastrados
+                            </div>
+                        </div>
+                    </h3>
+
+                </div>
+
+                <div class="right item">
+                    <a class="ui labeled primary icon button" href="#/newMaterial?id=0">
+                        <i class="edit icon"></i> Novo Material
+                    </a>
+                </div>
+
+
+            </div>
+
+            <!--TOP MENU-->
+
+            <div class="ui stackable segment" style="padding: 0">
+
+                <table datatable="ng" dt-options="vm.dtOptions" class="ui striped selectable table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Preço Atual</th>
+                            <th class="collapsing">Editar</th>
+                            <th class="collapsing">Excluir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.materialList">
+                            <td>{{item.codMaterial}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.category.description}}</td>
+                            <td>{{item.currentPrice | currency:"R$ "}}</td>
+                            <td>
+                                <button class="ui primary square icon button" ng-click="vm.editMaterial(item.id)" title="Editar Material">
+                                    <i class="ui edit icon"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button class="ui red square icon button" ng-click="vm.showModalRemoveMaterial(item)" title="Excluir Material">
+                                    <i class="ui remove icon"></i>
+                                    </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <!--SIXTEEN COLUMN-->
+
+    </div>
+    <!--GRID PAGE-->
+
+</form>
+<!--FORM-->
+
+<!--MODALS-->
+
+<!--EXCLUIR MATERIAL DA LISTA-->
+<div id="removeMaterialModal" class="ui basic modal">
+    <div class="header">
+        <h1>Excluir Material</h1>
+    </div>
+    <div class="image content">
+        <div class="description">
+            <h4>Deseja realmente excluir o Material {{vm.nameMaterial}}? Essa ação não poderá ser desfeita.</h4>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="ui ok green button" ng-click="vm.removeMaterialFromList()">
+            <i class="checkmark icon"></i> Excluir
+        </button>
+        <button class="ui cancel red button">
+            <i class="checkmark icon"></i> Cancelar
+        </button>
+    </div>
+</div>

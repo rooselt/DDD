@@ -1,0 +1,93 @@
+﻿<form name="equipmentListForm" novalidate>
+
+    <div class="ui stackable grid">
+
+        <div class="ui sixteen wide stackable column">
+
+            <div class="ui stackable borderless menu">
+
+                <div class="header item">
+
+                    <h3 class="ui header">
+                        <i class="bordered bar chart icon"></i>
+                        <div class="content">
+                            Equipamentos
+                            <div class="inverted sub header">
+                                Lista de Equipamentos Cadastrados
+                            </div>
+                        </div>
+                    </h3>
+
+                </div>
+
+                <div class="right item">
+                    <a class="ui labeled primary icon button" href="#/newEquipment?id=0">
+                        <i class="edit icon"></i> Novo Equipamento
+                    </a>
+                </div>
+
+            </div>
+            <!--TOP MENU-->
+
+            <div class="ui stackable segment" style="padding: 0">
+
+                <table datatable="ng" dt-options="vm.dtOptions" class="ui striped collapsing selectable table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Número de Série</th>
+                            <th>Descrição</th>
+                            <th>Modelo</th>
+                            <th>Fabricante</th>
+                            <th>Data Aquisição</th>
+                            <th>Valor Aproximado - R$</th>
+                            <th>Vida Util - Anos</th>
+                            <th class="collapsing">Editar</th>
+                            <th class="collapsing">Excluir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.equipmentList">
+                            <td>{{item.codEquipment}}</td>
+                            <td>{{item.serialNumber}}</td>
+                            <td>{{item.desc}}</td>
+                            <td>{{item.model}}</td>
+                            <td>{{item.manufacturer}}</td>
+                            <td>{{item.acquisitionDate | date:'dd/MM/yyyy'}}</td>
+                            <td>{{item.valor}}</td>
+                            <td>{{item.lifeSpan}}</td>
+                            <td><button class="ui primary square icon button" ng-click="vm.editEquipment(item.id)"><i class="ui edit icon"></i></button></td>
+                            <td><button class="ui red square icon button" ng-click="vm.showModalRemoveEquipment(item)"><i class="ui remove icon"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <!--SIXTEEN COLUMN-->
+
+    </div>
+    <!--GRID PAGE-->
+
+</form>
+<!--FORM-->
+
+<!--MODALS-->
+<div id="removeEquipmentModal" class="ui basic modal">
+    <div class="header">
+        <h1>Excluir Equipamento</h1>
+    </div>
+    <div class="image content">
+        <div class="description">
+            <h4>Deseja realmente excluir o Equipamento {{nameEquipment}}? Essa ação não poderá ser desfeita.</h4>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="ui ok green button" ng-click="vm.removeEquipmentFromList()">
+            <i class="checkmark icon"></i> Excluir
+        </button>
+        <button class="ui cancel red button">
+            <i class="checkmark icon"></i> Cancelar
+        </button>
+    </div>
+</div>

@@ -1,0 +1,160 @@
+﻿<form class="ui form" name="configForm" novalidate>
+
+    <div class="ui stackable grid">
+
+        <div class="ui sixteen wide stackable column">
+
+            <div class="ui stackable segment">
+                <div class="ui stackable grid" style="padding: 0">
+
+                    <div class="ui four wide stackable column">
+
+                        <h3 class="ui header">
+                            <i class="bordered truck icon"></i>
+                            <div class="content">
+                                Configurações
+                                <div class="inverted sub header">
+                                    Menu Superior - Configurações
+                                </div>
+                            </div>
+                        </h3>
+
+                    </div>
+                    <div class="ui twelve wide stackable right aligned column">
+                        <button class="ui labeled primary icon button" ng-click="vm.update()">
+                            <i class="check icon"></i> Salvar
+                        </button>
+                        <a class="ui icon primary button" ng-click="showHelp()">
+                            <i class="help icon"></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="ui ten wide centered column" style="padding-top:0">
+
+            <!--TABS-->
+            <div class="ui top attached tabular menu">
+                <a class="item active" data-tab="geral">Geral</a>
+                <a class="item" data-tab="codes">Gerenciamento de Códigos</a>
+                <a class="item" data-tab="sobre">Sobre</a>
+            </div>
+
+            <!--GERAL-->
+            <div class="ui bottom attached tab segment active" data-tab="geral">
+
+                <div class="field">
+
+                    <div class="ui floating message">
+                        <div class="header">
+                            Página Inicial
+                        </div>
+                        <p>
+                            Escolha em que página voçê deseja que o sistema inicie.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="ui six wide field">
+
+                    <label for="pages">Páginas</label>
+                    <select ng-model="vm.configuration.defaultPage" ng-options="item.id as item.desc for item in vm.pages" ng-selected="vm.configuration.defaultPage"
+                            name="pages" required class="ui dropdown"></select>
+
+                </div>
+
+            </div>
+
+            <!--CODES-->
+            <div class="ui bottom attached tab segment" data-tab="codes">
+
+                <div class="field">
+                    <div class="ui middle aligned selection animated divided list">
+                        <div class="ui floating message">
+                            <div class="header">
+                                Códigos Automáticos
+                            </div>
+                            <p>
+                                Selecione abaixo quais itens devem ter seus códigos gerados automáticamente, os itens não marcados
+                                deverão ser informados manualmente no momento do cadastro.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="ui stackable grid">
+
+                    <div class="ui four wide stackable column">
+
+                        <div class="ui field">
+
+                            <div class="ui  checkbox">
+                                <input type="checkbox" name="client" ng-model="vm.configuration.codAutoClient">
+                                <label>Clientes</label>
+                            </div>
+                        </div>
+                        <div class="ui field">
+
+                            <div class="ui  checkbox">
+                                <input type="checkbox" name="client" ng-model="vm.configuration.codAutoEquipment">
+                                <label>Equipamentos</label>
+                            </div>
+                        </div>
+                        <div class="ui field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" name="provider" ng-model="vm.configuration.codAutoProvider">
+                                <label>Fornecedores</label>
+                            </div>
+                        </div>
+                        <div class="ui field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" name="material" ng-model="vm.configuration.codAutoMaterial">
+                                <label>Materiais</label>
+                            </div>
+                        </div>
+                        <div class="ui field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" name="product" ng-model="vm.configuration.codAutoProduct">
+                                <label>Produtos</label>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="ui four wide stackable column">
+
+                        <div class="ui field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="estimate" ng-model="vm.configuration.codAutoEstimate">
+                                <label>Orçamentos</label>
+                            </div>
+                        </div>
+                        <div class="ui field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" name="request" ng-model="vm.configuration.codAutoRequest">
+                                <label>Pedidos</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div><!--TAB CODES-->
+            
+            <!--SOBRE-->
+            <div class="ui bottom attached tab segment" data-tab="sobre">
+
+                <label class="ui label">Versão 0.15.1.17</label>
+
+            </div>
+
+        </div><!--TEN COLUMN-->
+    </div><!--GRID-->
+
+</form><!--FORM-->

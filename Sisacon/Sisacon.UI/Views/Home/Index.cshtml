@@ -1,0 +1,209 @@
+﻿@using System.Web.Optimization @{ Layout = null; }
+
+<!DOCTYPE html>
+
+<html lang="pt-br" ng-app="app">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeloArt</title>
+    <link rel="shortcut icon" href="~/Content/logo.ico" type="image/x-icon" />
+    @Styles.Render("~/bundles/style")
+</head>
+
+<body ng-controller="IndexController" ng-cloak>
+    <!--BARRA LATERAL-->
+    <div id="sidebar" class="ui inverted vertical accordion menu wide sidebar">
+
+        <img class="ui centered image" src="/Content/logo.png" alt="BeloArte" style="margin-top:20px; margin-bottom:20px" />
+
+        <div class="item">
+            <!--CADASTROS-->
+            <a class="title">
+                <i class="dropdown icon"></i>
+                <span class="ui inverted header"><i class="edit icon"></i>Cadastros</span>
+            </a>
+            <div class="content">
+                <div class="item">
+                    <a href="#/clientList" class="ui labeled blue fluid large icon button" ng-click="openMenu()">
+                        <i class="users icon"></i>
+                        Clientes
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="#/equipmentList" class="ui labeled blue fluid large icon button" ng-click="openMenu()">
+                        <i class="print icon"></i>
+                        Equipamentos
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="#/providerList" class="ui labeled blue fluid large icon button" ng-click="openMenu()">
+                        <i class="truck icon"></i>
+                        Fornecedores
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="#/materialList" class="ui labeled blue fluid large icon button" ng-click="openMenu()">
+                        <i class="lab icon"></i>
+                        Materiais
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="#/productList" class="ui labeled blue fluid large icon button" ng-click="openMenu()">
+                        <i class="diamond icon"></i>
+                        Produtos
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <!--FINANCEIRO-->
+            <a class="title">
+                <i class="dropdown icon"></i>
+                <span class="ui inverted header"><i class="dollar icon"></i> Financeiro</span>
+            </a>
+            <div class="content">
+                <div class="item">
+                    <a href="#/costsDashboard" class="ui labeled blue fluid large icon button" ng-click="openMenu()">
+                        <i class="bar chart icon"></i> Custos de Produção
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="#" class="ui labeled blue fluid large icon button" ng-click="openMenu()">
+                        <i class="money icon"></i> Contas a Pagar ou Receber
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <!--ORÇAMENTOS-->
+            <a class="title">
+                <i class="dropdown icon"></i>
+                <span class="ui inverted header"><i class="calculator icon"></i> Orçamentos</span>
+            </a>
+            <div class="content">
+                <div class="item">
+                    <a href="#/estimateDashboard" class="ui labeled blue fluid large icon button" ng-click="openMenu()">
+                        <i class="desktop icon"></i> Painel
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--CONTEUDO A SER EMPURRADO PELA BARRA LATERAL-->
+    <div class="dimmed pusher">
+
+        <!--MENU PRICIPAL - TOP-->
+        <div class="ui inverted attached stackable menu">
+            <a ng-click="openMenu()" class="item">
+                <i class="large orange sidebar icon"></i>Menu
+            </a>
+            <a class="item" href="#/initialDashboard">
+                <i class="large orange home icon"></i>Painel Inicial
+            </a>
+            <div class="right menu">
+
+                <!--EMPRESA-->
+                <a class="item" href="#/company">
+                    <i class="large flag orange icon"></i> Minha Empresa
+                </a>
+                <!--NOTIFICAÇÕES-->
+                <a id="btnNotification" class="item">
+                    <i class="large alarm outline orange icon"></i> Notificações
+                    <div class="floating bottom ui orange label" ng-if="notifications.length > 0">{{notifications.length}}</div>
+                </a>
+                <!--AGENDA-->
+                <a href="#/calendar" class="item">
+                    <i class="large calendar orange icon"></i> Agenda
+                </a>
+                <a href="#/configuration" class="item">
+                    <i class="large settings orange icon"></i> Configurações
+                </a>
+                <!--FEEDBACK-->
+                <a href="#/feedback" class="item">
+                    <i class="large announcement orange icon"></i> Atendimento
+                </a>
+                <!--USUARIO-->
+                <a href="#/myAccount" class="item">
+                    <i class="large user orange icon"></i> Minha Conta
+                </a>
+                <!--LOGOUT-->
+                <a class="item" ng-click="logout()">
+                    <i class="large sign out orange icon"></i> Sair
+                </a>
+            </div>
+        </div>
+        <div style="height:1px"></div>
+
+        <!--CONTEUDO DINAMICO-->
+        <ng-view>
+        </ng-view>
+
+    </div>
+
+    <div id="notificationPopup" class="ui flowing transition hidden popup">
+
+        <h2 class="ui header">Alertas</h2>
+
+        <div class="ui stackable two column grid" ng-repeat="item in notifications">
+
+            <div class="ui four wide collumn">
+                <h4 class="ui header {{item.notificationClassCSS}}">
+                    <div class="content">
+                        {{item.message}}
+                        <div class="sub header">{{item.timeSinceCreation}}</div>
+                    </div>
+                </h4>
+            </div>
+            <div class="ui two wide collumn">
+                <a href="{{item.link}}" class="ui basic icon button" ng-click="updateStatusVisualized(item.id);">
+                    <i class="check icon"></i>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="ui divider"></div>
+
+        <div class="ui stackable grid" ng-if="notifications.length === 0">
+            <h4 class="ui header">
+                <div class="sub header">
+                    No momento, você não possui alertas pendentes
+                </div>
+            </h4>
+        </div>
+
+    </div>
+
+    <!--MODALS-->
+    <div id="wellcomeModal" class="ui small modal">
+        <div class="header">
+            <p>Seja Bem Vindo(a).</p>
+        </div>
+        <div class="content">
+            <div class="description">
+                <h4>Agora falta pouco para voçê começar a desfrutar de toda comodidade que o Sisacon pode te oferecer.</h4>
+                <h4>
+                    Nós queremos te ajudar a começar ou ampliar o seu negócio, mas para isso precisamos de mais algumas<br>informações.
+                </h4>
+                <h4>Prometo que não vai demorar. </h4>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="two ui buttons">
+                <a class="ui ok green button" href="#/company">
+                    <i class="checkmark icon"></i> Finalizar Cadastro
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery") @Scripts.Render("~/bundles/angular")
+</body>
+
+</html>
